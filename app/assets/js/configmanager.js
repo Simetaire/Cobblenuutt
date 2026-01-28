@@ -7,7 +7,7 @@ const logger = LoggerUtil.getLogger('ConfigManager')
 
 const sysRoot = process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Application Support' : process.env.HOME)
 
-const dataPath = path.join(sysRoot, '.helioslauncher')
+const dataPath = path.join(sysRoot, '.Cobblenuutt')
 
 const launcherDir = require('@electron/remote').app.getPath('userData')
 
@@ -53,7 +53,7 @@ exports.getAbsoluteMinRAM = function(ram){
     }
 }
 
-exports.getAbsoluteMaxRAM = function(_ram){
+exports.getAbsoluteMaxRAM = function(ram){
     const mem = os.totalmem()
     const gT16 = mem-(16*1073741824)
     return Math.floor((mem-(gT16 > 0 ? (Number.parseInt(gT16/8) + (16*1073741824)/4) : mem/4))/1073741824)
@@ -86,7 +86,8 @@ const DEFAULT_CONFIG = {
         },
         launcher: {
             allowPrerelease: false,
-            dataDirectory: dataPath
+            dataDirectory: dataPath,
+            autoCleanup: true // Suppression automatique des fichiers obsolètes
         }
     },
     newsCache: {
@@ -530,10 +531,27 @@ function defaultJavaConfig8(ram) {
 }
 
 function defaultJavaConfig17(ram) {
+    // Try to find Java 21 (recommended for Cobblemon and modern mods)
+    let javaExecutable = null
+    const java21Paths = [
+        'C:\\Program Files\\Java\\jdk-21\\bin\\javaw.exe',
+        'C:\\Program Files\\Java\\jre-21\\bin\\javaw.exe',
+        'C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.5.11-hotspot\\bin\\javaw.exe',
+        'C:\\Program Files\\Eclipse Adoptium\\jre-21.0.5.11-hotspot\\bin\\javaw.exe'
+    ]
+
+    for(const javaPath of java21Paths) {
+        if(fs.existsSync(javaPath)) {
+            javaExecutable = javaPath
+            logger.info('Found Java 21 at:', javaPath)
+            break
+        }
+    }
+
     return {
         minRAM: resolveSelectedRAM(ram),
         maxRAM: resolveSelectedRAM(ram),
-        executable: null,
+        executable: javaExecutable,
         jvmOptions: [
             '-XX:+UnlockExperimentalVMOptions',
             '-XX:+UseG1GC',
@@ -785,9 +803,28 @@ exports.getAllowPrerelease = function(def = false){
 
 /**
  * Change the status of Whether or not the launcher should download prerelease versions.
- * 
+ *
  * @param {boolean} launchDetached Whether or not the launcher should download prerelease versions.
  */
 exports.setAllowPrerelease = function(allowPrerelease){
     config.settings.launcher.allowPrerelease = allowPrerelease
+}
+
+/**
+ * Check if the launcher should automatically cleanup obsolete files (mods, resourcepacks, etc.).
+ *
+ * @param {boolean} def Optional. If true, the default value will be returned.
+ * @returns {boolean} Whether or not the launcher should automatically cleanup obsolete files.
+ */
+exports.getAutoCleanup = function(def = false){
+    return !def ? config.settings.launcher.autoCleanup : DEFAULT_CONFIG.settings.launcher.autoCleanup
+}
+
+/**
+ * Change the status of whether or not the launcher should automatically cleanup obsolete files.
+ *
+ * @param {boolean} autoCleanup Whether or not the launcher should automatically cleanup obsolete files.
+ */
+exports.setAutoCleanup = function(autoCleanup){
+    config.settings.launcher.autoCleanup = autoCleanup
 }

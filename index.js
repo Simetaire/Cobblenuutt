@@ -148,10 +148,14 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGIN, (ipcEvent, ...arguments_) => {
             let queries = uri.substring(REDIRECT_URI_PREFIX.length).split('#', 1).toString().split('&')
             let queryMap = {}
 
+            console.log('AUTH CODE URI:', uri)
+
             queries.forEach(query => {
                 const [name, value] = query.split('=')
-                queryMap[name] = decodeURI(value)
+                queryMap[name] = decodeURIComponent(value)
             })
+
+            console.log('QUERY MAP:', queryMap)
 
             ipcEvent.reply(MSFT_OPCODE.REPLY_LOGIN, MSFT_REPLY_TYPE.SUCCESS, queryMap, msftAuthViewSuccess)
 

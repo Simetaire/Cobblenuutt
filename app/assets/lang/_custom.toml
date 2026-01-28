@@ -1,14 +1,14 @@
 # Custom Language File for Launcher Customizer
 
 [ejs.app]
-title = "Helios Launcher"
+title = "Cobblenuutt"
 
 [ejs.landing]
-mediaGitHubURL = "https://github.com/dscalzi/HeliosLauncher"
-mediaXURL = "#"
-mediaInstagramURL = "#"
-mediaYouTubeURL = "#"
-mediaDiscordURL = "https://discord.gg/zNWUXdt"
+mediaGitHubURL = "https://nuutt-cobblemon.com"
+mediaXURL = "https://x.com/Cobblenuutt"
+mediaInstagramURL = "https://www.instagram.com/cobblenuutt?igsh=eHVjNzh5Ymp6bHNu&utm_source=qr"
+mediaYouTubeURL = "https://www.tiktok.com/@cobblenuutt?_r=1&_t=ZN-91Mri1IcG6I"
+mediaDiscordURL = "https://discord.gg/QndGWrM5r7"
 
 [ejs.settings]
 sourceGithubLink = "https://github.com/dscalZi/HeliosLauncher"

@@ -286,6 +286,18 @@
                     </label>
                 </div>
             </div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('settings.autoCleanupTitle') || 'Nettoyage automatique' %></span>
+                    <span class="settingsFieldDesc"><%- lang('settings.autoCleanupDesc') || 'Supprimer automatiquement les mods et resourcepacks obsolètes lors du lancement.' %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" cValue="AutoCleanup">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
             <div class="settingsFileSelContainer">
                 <div class="settingsFileSelContent">
                     <div class="settingsFieldTitle" id="settingsDataDirTitle"><%- lang('settings.dataDirectoryTitle') %></div>
